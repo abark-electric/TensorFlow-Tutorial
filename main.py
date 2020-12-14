@@ -41,6 +41,7 @@ def download_model(model_name):
 
 # MODEL_NAME = 'ssd_mobilenet_v2_coco_2018_03_29'
 # MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'    # Older version
+# MODEL_NAME = 'ssd_mobilenet_v1_coco_2017_11_17'    # Older version
 # PATH_TO_MODEL_DIR = download_model(MODEL_NAME)
 # print(PATH_TO_MODEL_DIR)
 
@@ -60,7 +61,7 @@ import time
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as viz_utils
 
-PATH_TO_SAVED_MODEL = '/Users/khandokerabrarzawad/PycharmProjects/GitHub/TensorFlow-Tutorial/data/ssd_mobilenet_v1_coco_11_06_2017' + '/saved_model'
+PATH_TO_SAVED_MODEL = '/Users/khandokerabrarzawad/PycharmProjects/GitHub/TensorFlow-Tutorial/data/ssd_mobilenet_v1_coco_2017_11_17' + '/saved_model'
 print('Loading model . . .', end='')
 start_time = time.time()
 
@@ -128,8 +129,8 @@ for image_path in IMAGE_PATHS:
     num_detections = int(detections.pop('num_detections'))
     detections = {key: value[0, :num_detections].numpy()
                   for key, value in detections.items()}
-    print('Detections: \n')
-    print(detections)
+    # print('Detections: \n')
+    # print(detections)
     detections['num_detections'] = num_detections
     detections['detection_classes'] = detections['detection_classes'].astype(np.int64)
 
@@ -143,11 +144,13 @@ for image_path in IMAGE_PATHS:
         category_index,    # mapping
         use_normalized_coordinates=True,
         max_boxes_to_draw=200,
-        min_score_thresh=30,
+        min_score_thresh=0.9,
         agnostic_mode=False
     )
     plt.figure()
     plt.imshow(image_np_with_detections)
     print('Done')
+
+
 
 plt.show()
